@@ -1,3 +1,9 @@
+yourss (1.1.0) stable; urgency=medium
+
+  * Debian Buster support
+
+ -- Alexander Fomichev <fomichev.ru@gmail.com>  Mon, 9 Sep 2019 23:00:00 +0300
+
 yourss (1.0.2) stable; urgency=medium
 
   * updated copyright text formatting
