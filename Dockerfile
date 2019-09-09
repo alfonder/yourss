@@ -1,7 +1,7 @@
 FROM debian:10-slim
 
 RUN apt-get update -qq && \
-    apt-get install -qy curl bash libav-tools youtube-dl python3-feedparser && \
+    apt-get install -qy curl bash ffmpeg youtube-dl python3-feedparser && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl --location --output /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.58.1/hugo_0.58.1_Linux-64bit.deb && \
