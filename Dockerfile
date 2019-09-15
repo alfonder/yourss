@@ -9,7 +9,7 @@ RUN apk add --no-cache bash && \
     ln -s /usr/local/bin/python3 /usr/bin/python3
 
 # install hugo
-RUN wget -O /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.58.1/hugo_0.58.1_Linux-64bit.tar.gz && \
+RUN wget -O /tmp/hugo.tgz https://github.com/gohugoio/hugo/releases/download/v0.58.2/hugo_0.58.2_Linux-64bit.tar.gz && \
     mkdir -p /usr/local/bin && \
     tar -C /usr/local/bin -zxf /tmp/hugo.tgz
 
