@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Usage: parse_feed.py <work-folder> <episodes_folder> <base-url> <youtube-rss-url>
+Usage: parse_feed.py <work-folder> <episodes_folder> <base-url> <youtube-rss-url> [ <skip_download> <ignore_errors> ]
 '''
 import sys
 import shutil
@@ -13,7 +13,7 @@ import youtube_dl
 from templates import HUGO_CONFIG, ENTRY
 
 
-def main(url, episodes_folder, baseurl, work_folder, skip_download=False):
+def main(url, episodes_folder, baseurl, work_folder, skip_download=False, ignore_errors=False):
     r = defaultdict(str)
 
     feed = fp.parse(url)
@@ -45,6 +45,7 @@ def main(url, episodes_folder, baseurl, work_folder, skip_download=False):
         'progress_hooks': [],
         'skip_download': skip_download,
         'forcejson': skip_download,
+        'ignoreerrors': ignore_errors,
     }
 
     if not os.path.isdir(episodes_folder):
@@ -77,6 +78,9 @@ def main(url, episodes_folder, baseurl, work_folder, skip_download=False):
                     # List of urls
                     ydl.download([e["link"]])
 
+                if CURRENT_FILE is None:
+                    continue
+
                 print("Moving '{}' to '{}'".format(CURRENT_FILE, target_filename))
                 shutil.move(CURRENT_FILE, target_filename)
 
@@ -96,6 +100,8 @@ def main(url, episodes_folder, baseurl, work_folder, skip_download=False):
         else:
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 json = ydl.extract_info(e["link"])
+                if json is None:
+                    continue
                 for forma in json.get("formats"):
                     if forma.get("ext") == "m4a":
                         duration = json.get("duration") / 60
@@ -127,7 +133,7 @@ def main(url, episodes_folder, baseurl, work_folder, skip_download=False):
                                file=EPISODE)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 5 or len(sys.argv) > 6:
+    if len(sys.argv) < 5 or len(sys.argv) > 7:
         exit("Incorrect number of arguments" + __doc__)
     print(sys.argv[1:])
-    main(sys.argv[4], episodes_folder=sys.argv[2], baseurl=sys.argv[3], work_folder=sys.argv[1], skip_download=bool(sys.argv[5]))
+    main(sys.argv[4], episodes_folder=sys.argv[2], baseurl=sys.argv[3], work_folder=sys.argv[1], skip_download=bool(int(sys.argv[5])), ignore_errors=bool(int(sys.argv[6])))

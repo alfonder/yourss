@@ -15,6 +15,7 @@ options:
   -o, --out       directory to place site in
   -r, --rss       youtube rss feed url
   -s              skip downloading mp3 files
+  -i              ignore download errors
 
 environment variables:
   SITEDIR         location of the hugo site
@@ -42,6 +43,8 @@ print_missing_arg() {
 }
 
 SCRIPT="$0"
+skipdownload=0
+ignoreerrors=0
 
 while :
 do
@@ -75,7 +78,11 @@ do
       shift 1
       ;;
     -s)
-      skipdownload=true
+      skipdownload=1
+      shift 1
+      ;;
+    -i)
+      ignoreerrors=1
       shift 1
       ;;
     --) # End of all options
@@ -137,13 +144,14 @@ echo "sitedir: ${sitedir}"
 echo "out: ${out}"
 echo "rss: ${rss}"
 echo "baseurl: ${baseurl}"
-echo "download: ${skipdownload}"
+echo "skipdownload: ${skipdownload}"
+echo "ignoreerrors: ${ignoreerrors}"
 
 mkdir ${tempsite}
 
 cp -r ${sitedir}/* ${tempsite}/
 
-/usr/bin/python3 "${scriptdir}"/parse_feed.py "${tempdir}" "${out}/episode" "${baseurl}" "${rss}" "${skipdownload}"
+/usr/bin/python3 "${scriptdir}"/parse_feed.py "${tempdir}" "${out}/episode" "${baseurl}" "${rss}" "${skipdownload}" "${ignoreerrors}"
 
 echo "Building site..."
 
