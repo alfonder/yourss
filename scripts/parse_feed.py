@@ -11,6 +11,7 @@ from collections import defaultdict
 import feedparser as fp
 import youtube_dl
 from templates import HUGO_CONFIG, ENTRY
+import html.parser
 
 
 def main(url, episodes_folder, baseurl, work_folder, skip_download=False, ignore_errors=False):
@@ -124,7 +125,7 @@ def main(url, episodes_folder, baseurl, work_folder, skip_download=False, ignore
         with open(postfile, "w") as EPISODE:
             print(ENTRY.format(thumbnail=thumbnail,
                                published=e.get("published", ""),
-                               title=e.get("title", ""),
+                               title=html.escape(e.get("title", "")),
                                author=e.get("author", ""),
                                summary=e.get("summary", ""),
                                total_bytes=int(target_size),
