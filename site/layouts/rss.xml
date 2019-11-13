@@ -34,6 +34,7 @@
       <itunes:author>{{ .Params.author }}</itunes:author>
       <itunes:summary>{{ .Description | html }}</itunes:summary>
       <description>{{ .Description | html }}</description>
+      <itunes:image href="{{ .Params.banner }}" />
       <enclosure url="{{ .Params.podcast | absURL }}" length="{{ .Params.podcast_bytes }}" type="audio/mpeg" />
       <guid>{{ .Permalink }}</guid>
       <link>{{ .Permalink }}</link>
