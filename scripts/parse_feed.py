@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Usage: parse_feed.py <work-folder> <episodes_folder> <base-url> <youtube-rss-url> [ <skip_download> <ignore_errors> ]
+Usage: parse_feed.py <work-folder> <episodes_folder> <base-url> <youtube-rss-url> [ <skip_download> <ignore_errors> <channel-artwork-url> ]
 '''
 import sys
 import shutil
@@ -14,7 +14,7 @@ from templates import HUGO_CONFIG, ENTRY
 import html.parser
 
 
-def main(url, episodes_folder, baseurl, work_folder, skip_download=False, ignore_errors=False):
+def main(url, episodes_folder, baseurl, work_folder, skip_download=False, ignore_errors=False, artwork_url=""):
     r = defaultdict(str)
 
     feed = fp.parse(url)
@@ -29,7 +29,8 @@ def main(url, episodes_folder, baseurl, work_folder, skip_download=False, ignore
     actual_config = HUGO_CONFIG.format(baseurl=baseurl,
                                        title=f.get("title", ""),
                                        author=f.get("author", ""),
-                                       yturl=f.get("link", ""))
+                                       yturl=f.get("link", ""),
+                                       artwork=artwork_url)
 
     with open(os.path.join(work_folder, "site/config.toml"), "wb") as CONFIG:
         CONFIG.write(actual_config.encode('utf-8'))
@@ -134,7 +135,8 @@ def main(url, episodes_folder, baseurl, work_folder, skip_download=False, ignore
                                file=EPISODE)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 5 or len(sys.argv) > 7:
+    if len(sys.argv) < 5 or len(sys.argv) > 8:
         exit("Incorrect number of arguments" + __doc__)
     print(sys.argv[1:])
-    main(sys.argv[4], episodes_folder=sys.argv[2], baseurl=sys.argv[3], work_folder=sys.argv[1], skip_download=bool(int(sys.argv[5])), ignore_errors=bool(int(sys.argv[6])))
+    main(sys.argv[4], episodes_folder=sys.argv[2], baseurl=sys.argv[3], work_folder=sys.argv[1], skip_download=bool(int(sys.argv[5])),
+            ignore_errors=bool(int(sys.argv[6])), artwork_url=sys.argv[7])

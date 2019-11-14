@@ -23,6 +23,7 @@
       <itunes:name>{{ .Site.Author.name }}</itunes:name>
       <itunes:email>dummy@dummy.com</itunes:email>
     </itunes:owner>
+    <itunes:image href="{{ $.Page.Site.Params.artwork }}" />
     <itunes:explicit>yes</itunes:explicit>
     <!--<itunes:image href="" />-->
     <itunes:category text="Technology">

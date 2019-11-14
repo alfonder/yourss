@@ -25,6 +25,7 @@ copyright = """All content original copyright of {author}"""
   author = """{author}"""
   # Format dates with Go's time formatting
   date_format = "2006-01-02"
+  artwork = "{artwork}"
 
 [[params.social]]
   url = "{yturl}"

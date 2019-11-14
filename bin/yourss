@@ -138,20 +138,21 @@ sitedir="${SITEDIR:-./site}"
 scriptdir="${SCRIPTDIR:-./bin}"
 
 echo "temp: ${tempdir}"
-echo "tempsite: ${tempsite}"
-echo "scriptdir: ${scriptdir}"
-echo "sitedir: ${sitedir}"
+echo "temp site: ${tempsite}"
+echo "script dir: ${scriptdir}"
+echo "site dir: ${sitedir}"
 echo "out: ${out}"
 echo "rss: ${rss}"
 echo "baseurl: ${baseurl}"
-echo "skipdownload: ${skipdownload}"
-echo "ignoreerrors: ${ignoreerrors}"
+echo "artwork url: ${ARTWORKURL}"
+echo "skip download: ${skipdownload}"
+echo "ignore errors: ${ignoreerrors}"
 
 mkdir ${tempsite}
 
 cp -r ${sitedir}/* ${tempsite}/
 
-/usr/bin/python3 "${scriptdir}"/parse_feed.py "${tempdir}" "${out}/episode" "${baseurl}" "${rss}" "${skipdownload}" "${ignoreerrors}"
+/usr/bin/python3 "${scriptdir}"/parse_feed.py "${tempdir}" "${out}/episode" "${baseurl}" "${rss}" "${skipdownload}" "${ignoreerrors}" "${ARTWORKURL}"
 
 echo "Building site..."
 
